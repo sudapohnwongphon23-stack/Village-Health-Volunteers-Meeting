@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><?= CONFIG.APP_NAME ?></title>
+  <?!= include('Styles'); ?>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">อสม</div>
+        <div>
+          <h1><?= CONFIG.APP_NAME ?></h1>
+          <p><?= CONFIG.OFFICE_NAME ?></p>
+        </div>
+      </div>
+      <button class="icon-button" id="refreshButton" type="button" title="รีเฟรชข้อมูล" aria-label="รีเฟรชข้อมูล">↻</button>
+    </header>
+
+    <main class="main-layout">
+      <section class="survey-panel" aria-labelledby="surveyTitle">
+        <div class="panel-head">
+          <div>
+            <h2 id="surveyTitle">บันทึกวันที่จัดประชุม อสม.</h2>
+            <p>อำเภอเมืองอุดรธานี</p>
+          </div>
+          <span class="status-pill" id="systemStatus">พร้อมบันทึก</span>
+        </div>
+
+        <form id="surveyForm" class="form-grid" novalidate>
+          <label>
+            <span>หน่วยงาน</span>
+            <input id="agency" name="agency" type="text" autocomplete="organization" maxlength="180" required>
+          </label>
+
+          <div class="field-pair">
+            <label>
+              <span>วันที่จัดประชุม อสม.</span>
+              <input id="meetingDate" name="meetingDate" type="date" required>
+            </label>
+            <label>
+              <span>เวลาเริ่มประชุม</span>
+              <input id="meetingTime" name="meetingTime" type="time">
+            </label>
+          </div>
+
+          <label>
+            <span>สถานที่จัดประชุม</span>
+            <input id="meetingPlace" name="meetingPlace" type="text" maxlength="220" required>
+          </label>
+
+          <div class="field-pair">
+            <label>
+              <span>ชื่อ-สกุล เจ้าหน้าที่ผู้รับผิดชอบงาน</span>
+              <input id="coordinatorName" name="coordinatorName" type="text" autocomplete="name" maxlength="160" required>
+            </label>
+            <label>
+              <span>เบอร์โทรผู้ประสานงาน</span>
+              <input id="coordinatorPhone" name="coordinatorPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" required>
+            </label>
+          </div>
+
+          <label>
+            <span>หมายเหตุ</span>
+            <textarea id="notes" name="notes" maxlength="500"></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button id="submitButton" class="primary-button" type="submit">
+              <span aria-hidden="true">✓</span>
+              <span>บันทึกคำตอบ</span>
+            </button>
+            <button id="resetButton" class="secondary-button" type="button">ล้างฟอร์ม</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="summary-panel" aria-labelledby="summaryTitle">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">สรุปการตอบแบบสำรวจ</h2>
+            <p id="latestText">ยังไม่มีข้อมูลล่าสุด</p>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric-card">
+            <strong id="totalResponses">0</strong>
+            <span>คำตอบทั้งหมด</span>
+          </div>
+          <div class="metric-card">
+            <strong id="uniqueAgencies">0</strong>
+            <span>หน่วยงานที่ตอบ</span>
+          </div>
+        </div>
+
+        <div class="date-list" id="dateList"></div>
+
+        <details class="admin-box">
+          <summary>สำหรับผู้ดูแล</summary>
+          <div class="admin-controls">
+            <input id="adminPin" type="password" autocomplete="current-password" placeholder="PIN ผู้ดูแล">
+            <div class="admin-buttons">
+              <button id="loadAdminButton" class="secondary-button" type="button">ดูข้อมูล</button>
+              <button id="exportCsvButton" class="secondary-button" type="button">CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>วันที่บันทึก</th>
+                  <th>หน่วยงาน</th>
+                  <th>วันที่ประชุม</th>
+                  <th>สถานที่</th>
+                  <th>ผู้รับผิดชอบ</th>
+                  <th>โทร</th>
+                </tr>
+              </thead>
+              <tbody id="adminRows">
+                <tr><td colspan="6">ยังไม่ได้โหลดข้อมูล</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </aside>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <?!= include('ClientApp'); ?>
+</body>
+</html>
